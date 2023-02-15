@@ -6,8 +6,8 @@ const birdsData = [
     radius: 1000,
     bearing: 360,
     position: {
-      lat: 32.093187993491434,
-      lng: 34.81229287422616,
+      lat: 32.82264172432873,
+      lng: 34.97441650419942,
     },
     rateOfClimbAtMinSpeed: 50, //feet per minute
     ifFarFromDestination: true,

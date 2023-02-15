@@ -52,14 +52,17 @@ const flightModule = (birdData) => {
     currentLocation.lng + longitudeDistancePerSecond * intervalInSeconds;
 
   // calc plane bearing
+  const lat1 = currentLocation.lat * (Math.PI / 180);
+  const lon1 = currentLocation.lng * (Math.PI / 180);
+  const lat2 = destination.lat * (Math.PI / 180);
+  const lon2 = destination.lng * (Math.PI / 180);
+
+  const y = Math.sin(lon2 - lon1) * Math.cos(lat2);
   const x =
-    Math.cos(destination.lat) * Math.sin(destination.lng - currentLocation.lng);
-  const y =
-    Math.cos(currentLocation.lat) * Math.sin(destination.lat) -
-    Math.sin(currentLocation.lat) *
-      Math.cos(destination.lat) *
-      Math.cos(destination.lng - currentLocation.lng);
-  const bearingInRad = Math.atan2(x, y);
+    Math.cos(lat1) * Math.sin(lat2) -
+    Math.sin(lat1) * Math.cos(lat2) * Math.cos(lon2 - lon1);
+
+  const bearingInRad = Math.atan2(y, x);
   const bearing = (bearingInRad * 180) / Math.PI;
 
   return { position: { lat: latitude, lng: longitude }, bearing };
