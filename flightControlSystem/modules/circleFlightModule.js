@@ -1,4 +1,4 @@
-const { intervalRate } = require("../config");
+const { intervalRate } = require("../../config");
 
 const circleFlightModule = (birdData) => {
   const currentLocation = birdData.position;

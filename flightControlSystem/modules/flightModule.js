@@ -1,7 +1,7 @@
 // this module changes the bird's position ->
 // in consideration of its properties and destination
 
-const { intervalRate } = require("../config");
+const { intervalRate } = require("../../config");
 
 const earthRadius = 6371e3; // Earth's radius in meters
 
