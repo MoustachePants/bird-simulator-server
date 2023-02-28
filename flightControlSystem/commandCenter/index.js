@@ -6,7 +6,7 @@ const flyTo = (birdIndex, requiredPosition) => {
 };
 
 const changeSpeed = (birdIndex, requiredSpeed) => {
-  birds[birdIndex].speed = requiredSpeed;
+  birds[birdIndex].required.speed = requiredSpeed;
 };
 
 const changeAltitude = (birdIndex, requiredAltitude) => {

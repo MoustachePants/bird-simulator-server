@@ -4,6 +4,7 @@ const birdFinder = require("../utils/birdFinder");
 const flightModule = require("./modules/flightModule");
 // const circleFlightModule = require("./modules/circleFlightModule");
 const altitudeModule = require("./modules/altitudeModule");
+const speedModule = require("./modules/speedModule");
 
 const timeout = (ms) => new Promise((resolve) => setTimeout(resolve, ms));
 const startInterval = async () => {
@@ -11,6 +12,7 @@ const startInterval = async () => {
     birds.forEach((bird) => {
       const { birdIndex } = birdFinder(bird.tailNum);
 
+      // Position Change - flight module
       let newPosition, newBearing;
 
       if (bird.ifFarFromDestination) {
@@ -28,10 +30,17 @@ const startInterval = async () => {
       //   newBearing = bearing;
       // }
 
+      // Altitude Change - altitude module
       if (bird.altitude !== bird.required.altitude) {
         const newAltitude = altitudeModule(bird);
         birds[birdIndex].altitude = newAltitude;
-      }
+      } else bird.required.altitude = null;
+
+      //   speed change - speed module
+      if (bird.speed !== bird.required.speed) {
+        const newSpeed = speedModule(bird);
+        birds[birdIndex].speed = newSpeed;
+      } else bird.required.speed = null;
     });
     await timeout(intervalRate);
   }
