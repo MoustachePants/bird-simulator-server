@@ -5,6 +5,7 @@ const flightModule = require("./modules/flightModule");
 // const circleFlightModule = require("./modules/circleFlightModule");
 const altitudeModule = require("./modules/altitudeModule");
 const speedModule = require("./modules/speedModule");
+const caloriesModule = require("./modules/caloriesModule");
 
 const timeout = (ms) => new Promise((resolve) => setTimeout(resolve, ms));
 const startInterval = async () => {
@@ -15,7 +16,7 @@ const startInterval = async () => {
       // Position Change - flight module
       let newPosition, newBearing;
 
-      if (bird.ifFarFromDestination) {
+      if (bird.state.ifFarFromDestination) {
         const { position, bearing } = flightModule(bird);
         newPosition = position;
         newBearing = bearing;
@@ -32,15 +33,22 @@ const startInterval = async () => {
 
       // Altitude Change - altitude module
       if (bird.altitude !== bird.required.altitude) {
-        const newAltitude = altitudeModule(bird);
+        const { newAltitude, isClimbing, isDescending } = altitudeModule(bird);
         birds[birdIndex].altitude = newAltitude;
+        birds[birdIndex].state.isClimbing = isClimbing;
+        birds[birdIndex].state.isDescending = isDescending;
       } else bird.required.altitude = null;
 
-      //   speed change - speed module
+      // Speed change - speed module
       if (bird.speed !== bird.required.speed) {
         const newSpeed = speedModule(bird);
         birds[birdIndex].speed = newSpeed;
       } else bird.required.speed = null;
+
+      // Calories change - calories module
+      const remainingCalories = caloriesModule(bird);
+      birds[birdIndex].calories.current = remainingCalories;
+      // birds[birdIndex].calories.averageBurnedPerMinute = averageBurnedPerMinute;
     });
     await timeout(intervalRate);
   }

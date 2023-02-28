@@ -7,25 +7,34 @@ function altitudeModule(birdData) {
     birdData.required.altitude || birdData.altitude
   );
 
+  if (altitude === requiredAltitude)
+    return { newAltitude: altitude, isClimbing: false, isDescending: false };
+
   const timeInMinutes = intervalRate / (1000 * 60);
-  const ifAscend = requiredAltitude - altitude >= 0;
+  const isClimbing = requiredAltitude - altitude > 0;
+
+  console.log(birdData.altitude);
 
   let altitudeChange;
-  if (ifAscend) altitudeChange = rateOfClimb * timeInMinutes;
+  if (isClimbing) altitudeChange = rateOfClimb * timeInMinutes;
   else altitudeChange = -rateOfClimb * timeInMinutes;
 
   const newAltitude = altitude + altitudeChange;
 
-  if (ifAscend && newAltitude >= requiredAltitude) {
+  if (isClimbing && newAltitude >= requiredAltitude) {
     return requiredAltitude;
   }
-  if (!ifAscend && newAltitude <= requiredAltitude) {
+  if (!isClimbing && newAltitude <= requiredAltitude) {
     return requiredAltitude;
   }
 
-  console.log(newAltitude);
+  // console.log(newAltitude);
 
-  return Number(newAltitude).toFixed(4);
+  return {
+    newAltitude: Number(newAltitude).toFixed(4),
+    isClimbing,
+    isDescending: !isClimbing,
+  };
 }
 
 // function altitudeModule(birdData) {
