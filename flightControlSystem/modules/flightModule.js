@@ -63,7 +63,7 @@ const flightModule = (birdData) => {
     Math.sin(lat1) * Math.cos(lat2) * Math.cos(lon2 - lon1);
 
   const bearingInRad = Math.atan2(y, x);
-  const bearing = (bearingInRad * 180) / Math.PI;
+  const bearing = ((bearingInRad * 180) / Math.PI + 360) % 360;
 
   return { position: { lat: latitude, lng: longitude }, bearing };
 };
