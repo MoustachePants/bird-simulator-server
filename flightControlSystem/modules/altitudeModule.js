@@ -13,8 +13,6 @@ function altitudeModule(birdData) {
   const timeInMinutes = intervalRate / (1000 * 60);
   const isClimbing = requiredAltitude - altitude > 0;
 
-  console.log(birdData.altitude);
-
   let altitudeChange;
   if (isClimbing) altitudeChange = rateOfClimb * timeInMinutes;
   else altitudeChange = -rateOfClimb * timeInMinutes;

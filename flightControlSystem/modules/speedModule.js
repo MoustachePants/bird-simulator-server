@@ -16,7 +16,6 @@ const speedModule = (bird) => {
     speedChange = -1 * accelerationRate * timeInMinutes;
 
   const newSpeed = currentSpeed + speedChange;
-  console.log("new speed: " + newSpeed);
 
   if (speedChange >= 0 && newSpeed > targetSpeed) return targetSpeed;
   if (speedChange < 0 && newSpeed < targetSpeed) return targetSpeed;

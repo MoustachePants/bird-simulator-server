@@ -46,9 +46,9 @@ const startInterval = async () => {
       } else bird.required.speed = null;
 
       // Calories change - calories module
-      const remainingCalories = caloriesModule(bird);
+      const { remainingCalories, caloriesPerMinute } = caloriesModule(bird);
       birds[birdIndex].calories.current = remainingCalories;
-      // birds[birdIndex].calories.averageBurnedPerMinute = averageBurnedPerMinute;
+      birds[birdIndex].calories.averageBurnedPerMinute = caloriesPerMinute;
     });
     await timeout(intervalRate);
   }
