@@ -14,10 +14,10 @@ const changeAltitude = (birdIndex, requiredAltitude) => {
 };
 
 const commandCenter = (commandBody) => {
-  const { tailNum, requiredPosition, requiredSpeed, requiredAltitude } =
+  let { tailNum, requiredPosition, requiredSpeed, requiredAltitude } =
     commandBody;
 
-  console.log({ tailNum, requiredPosition, requiredSpeed, requiredAltitude });
+  // console.log({ tailNum, requiredPosition, requiredSpeed, requiredAltitude });
 
   const { bird, birdIndex } = birdFinder(tailNum);
 
