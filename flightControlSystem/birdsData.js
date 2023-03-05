@@ -1,47 +1,44 @@
 const { ifRandomBirdData } = require("../config");
 
-let birdsData = [];
-
-if (!ifRandomBirdData)
-  birdsData = [
-    {
-      tailNum: 1,
-      name: "Stork",
-      summery:
-        "The white stork migrates through Israel from Europe to Africa, stopping to rest and refuel on its journey. Watching this graceful bird in flight is a marvel of nature, as it perseveres on its long journey to reach its wintering grounds.",
-      type: "bird", // bird types are: bird, bee, butterfly
-      speed: 10, //knots
-      altitude: 100, //feet
-      radius: 1000,
-      bearing: 360,
-      calories: { current: 1, averageBurnedPerMinute: 10 },
-      position: {
-        lat: 32.803534502412134,
-        lng: 35.63694166887225,
-      },
-      state: {
-        ifFarFromDestination: true,
-        isClimbing: false,
-        isDescending: false,
-        isEating: false,
-      },
-      limits: {
-        speed: { min: 5, max: 20 },
-        altitude: { min: 50, max: 1500 },
-        acceleration: 50, //knots per minute
-        maxCalories: 10000,
-      },
-      rateOfClimb: 50, //feet per minute
-      required: {
-        position: {
-          lat: null,
-          lng: null,
-        },
-        speed: null,
-        altitude: null,
-      },
+let birdsData = [
+  {
+    tailNum: 1,
+    name: "Stork",
+    summery:
+      "The white stork migrates through Israel from Europe to Africa, stopping to rest and refuel on its journey. Watching this graceful bird in flight is a marvel of nature, as it perseveres on its long journey to reach its wintering grounds.",
+    type: "bird", // bird types are: bird, bee, butterfly
+    speed: 10, //knots
+    altitude: 100, //feet
+    radius: 1000,
+    bearing: 360,
+    calories: { current: 1, averageBurnedPerMinute: 10 },
+    position: {
+      lat: 32.86284619444648,
+      lng: 35.594116888447104,
     },
-  ];
+    state: {
+      ifFarFromDestination: true,
+      isClimbing: false,
+      isDescending: false,
+      isEating: false,
+    },
+    limits: {
+      speed: { min: 5, max: 20 },
+      altitude: { min: 50, max: 1500 },
+      acceleration: 50, //knots per minute
+      maxCalories: 10000,
+    },
+    rateOfClimb: 50, //feet per minute
+    required: {
+      position: {
+        lat: null,
+        lng: null,
+      },
+      speed: null,
+      altitude: null,
+    },
+  },
+];
 
 if (ifRandomBirdData) {
   const birdNames = [
@@ -70,7 +67,7 @@ if (ifRandomBirdData) {
     "The swan is a graceful water bird known for its long neck and beautiful plumage. With its elegant appearance and regal bearing, it is a favorite of many birdwatchers.",
   ];
 
-  for (let i = 0; i < 10; i++) {
+  for (let i = 1; i < 10; i++) {
     const latitude = 31.503534502412134 + Math.random() * 3;
     const longitude = 34.63694166887225 + Math.random() * 3;
     const requiredLatitude = latitude + Math.random() * 2 - 1;
