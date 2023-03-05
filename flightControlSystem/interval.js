@@ -6,6 +6,7 @@ const flightModule = require("./modules/flightModule");
 const altitudeModule = require("./modules/altitudeModule");
 const speedModule = require("./modules/speedModule");
 const caloriesModule = require("./modules/caloriesModule");
+const eatingModule = require("./modules/eatingModule");
 
 const timeout = (ms) => new Promise((resolve) => setTimeout(resolve, ms));
 const startInterval = async () => {
@@ -49,6 +50,10 @@ const startInterval = async () => {
       const { remainingCalories, caloriesPerMinute } = caloriesModule(bird);
       birds[birdIndex].calories.current = remainingCalories;
       birds[birdIndex].calories.averageBurnedPerMinute = caloriesPerMinute;
+
+      //   Eating module
+      const isEating = eatingModule(bird);
+      birds[birdIndex].state.isEating = isEating;
     });
     await timeout(intervalRate);
   }
