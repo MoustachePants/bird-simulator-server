@@ -71,10 +71,10 @@ if (ifRandomBirdData) {
   ];
 
   for (let i = 0; i < 10; i++) {
-    const latitude = 31.503534502412134 + Math.random() * 2;
-    const longitude = 34.63694166887225 + Math.random() * 2;
-    const requiredLatitude = 31.503534502412134 + Math.random() * 2;
-    const requiredLongitude = 34.63694166887225 + Math.random() * 2;
+    const latitude = 31.503534502412134 + Math.random() * 3;
+    const longitude = 34.63694166887225 + Math.random() * 3;
+    const requiredLatitude = latitude + Math.random() * 2 - 1;
+    const requiredLongitude = longitude + Math.random() * 2 - 1;
     const maxSpeed = 5 + Math.floor(5 + Math.random() * 20);
     const maxHeight = 50 + Math.floor((1 + Math.random() * 100) * 50);
 
@@ -84,7 +84,7 @@ if (ifRandomBirdData) {
       summery: birdSummaries[i],
       type: "bird",
       speed: 5 + Math.random() * (maxSpeed - 5),
-      altitude: 50 + Math.random() * (maxHeight - 50),
+      altitude: 50 + Math.floor(Math.random() * 15) * 50,
       radius: 1000,
       bearing: 360,
       calories: {
