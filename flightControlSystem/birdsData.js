@@ -73,7 +73,7 @@ if (ifRandomBirdData) {
     const requiredLatitude = latitude + Math.random() * 2 - 1;
     const requiredLongitude = longitude + Math.random() * 2 - 1;
     const maxSpeed = 5 + Math.floor(5 + Math.random() * 20);
-    const maxHeight = 50 + Math.floor((1 + Math.random() * 100) * 50);
+    const maxHeight = 50 + Math.floor(1 + Math.random() * 100) * 50;
 
     birdsData.push({
       tailNum: i + 1,
