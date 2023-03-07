@@ -1,3 +1,3 @@
 exports.intervalRate = 1000;
 exports.caloriesGainPerMinuteWhenEating = 20;
-exports.ifRandomBirdData = true;
+exports.ifRandomBirdData = false;
