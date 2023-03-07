@@ -1,5 +1,5 @@
-const birds = require("../birdsData");
-const birdFinder = require("../../utils/birdFinder");
+const birds = require("./birdsData");
+const birdFinder = require("../utils/birdFinder");
 
 const flyTo = (birdIndex, requiredPosition) => {
   birds[birdIndex].required.position = requiredPosition;
@@ -17,9 +17,7 @@ const commandCenter = (commandBody) => {
   let { tailNum, requiredPosition, requiredSpeed, requiredAltitude } =
     commandBody;
 
-  // console.log({ tailNum, requiredPosition, requiredSpeed, requiredAltitude });
-
-  const { bird, birdIndex } = birdFinder(tailNum);
+  const { birdIndex } = birdFinder(tailNum);
 
   if (requiredPosition) flyTo(birdIndex, requiredPosition);
   if (requiredSpeed) changeSpeed(birdIndex, requiredSpeed);
