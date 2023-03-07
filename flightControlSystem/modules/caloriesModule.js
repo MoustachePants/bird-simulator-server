@@ -1,6 +1,6 @@
 const {
   intervalRate,
-  caloriesGainPerMinuteWhenEating,
+  caloriesGainPerSecondWhenEating,
 } = require("../../config");
 
 const caloriesModule = (bird) => {
@@ -12,12 +12,13 @@ const caloriesModule = (bird) => {
   const maxCalories = bird.limits.maxCalories;
 
   const minuteFactor = 60000 / intervalRate;
+  const secondFactor = 1000 / intervalRate;
   const caloriesFactor = 0.0001;
 
   if (isEating && currentCalories < maxCalories) {
     return {
       remainingCalories:
-        Number(currentCalories) + caloriesGainPerMinuteWhenEating,
+        Number(currentCalories) + caloriesGainPerSecondWhenEating,
       caloriesPerMinute: 20 * minuteFactor,
     };
   }
