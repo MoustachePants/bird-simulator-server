@@ -11,10 +11,10 @@ let birdsData = [
     altitude: 100, //feet
     radius: 1000,
     bearing: 360,
-    calories: { current: 1, averageBurnedPerMinute: 10 },
+    calories: { current: 2000, averageBurnedPerMinute: 10 },
     position: {
-      lat: 32.86284619444648,
-      lng: 35.594116888447104,
+      lat: 32.84949431435908,
+      lng: 34.97669664788461,
     },
     state: {
       ifFarFromDestination: true,
