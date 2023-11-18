@@ -3,6 +3,8 @@ const birdFinder = require("../utils/birdFinder");
 
 const flyTo = (birdIndex, requiredPosition) => {
   birds[birdIndex].required.position = [requiredPosition];
+  birds[birdIndex].state.isCircleFlight = false;
+  birds[birdIndex].state.circleCenter = { lat: null, lng: null };
 };
 
 const addPositionToRoute = (birdIndex, requiredRoutePosition) => {

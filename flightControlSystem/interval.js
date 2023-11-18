@@ -2,12 +2,10 @@ const birds = require("./birdsData");
 const { intervalRate } = require("../config");
 const birdFinder = require("../utils/birdFinder");
 const flightModule = require("./modules/flightModule");
-// const circleFlightModule = require("./modules/circleFlightModule");
 const altitudeModule = require("./modules/altitudeModule");
 const speedModule = require("./modules/speedModule");
 const caloriesModule = require("./modules/caloriesModule");
 const eatingModule = require("./modules/eatingModule");
-const calculateDistanceBetweenCoords = require("../utils/calculateDistanceBetweenCoords");
 
 const timeout = (ms) => new Promise((resolve) => setTimeout(resolve, ms));
 const startInterval = async () => {
@@ -18,17 +16,19 @@ const startInterval = async () => {
       // Position Change - flight module
       let newPosition, newBearing;
 
-      if (bird.state.ifFarFromDestination) {
-        const { position, bearing, requiredRoute } = flightModule(bird);
-        newPosition = position;
-        newBearing = bearing;
+      const { position, bearing, requiredRoute, isCircleFlight, circleCenter } =
+        flightModule(bird);
 
-        birds[birdIndex].position.lat = newPosition.lat;
-        birds[birdIndex].position.lng = newPosition.lng;
-        birds[birdIndex].bearing = newBearing;
+      newPosition = position;
+      newBearing = bearing;
 
-        if (requiredRoute) birds[birdIndex].required.position = requiredRoute;
-      }
+      birds[birdIndex].position.lat = newPosition.lat;
+      birds[birdIndex].position.lng = newPosition.lng;
+      birds[birdIndex].bearing = newBearing;
+      birds[birdIndex].state.isCircleFlight = isCircleFlight;
+      birds[birdIndex].state.circleCenter = circleCenter;
+
+      if (requiredRoute) birds[birdIndex].required.position = requiredRoute;
 
       // if (!bird.ifFarFromDestination) {
       //   const { position, bearing } = circleFlightModule(bird);

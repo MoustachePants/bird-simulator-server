@@ -1,8 +1,9 @@
 // this module changes the bird's position ->
 // in consideration of its properties and destination
 
-const { intervalRate } = require("../../config");
+const { intervalRate, nearDistanceInKM } = require("../../config");
 const calculateIfFarFromDistance = require("../../utils/calculateDistanceBetweenCoords");
+const circleFlightRouteModule = require("../modules/circleFlightRouteModule");
 
 const earthRadius = 6371e3; // Earth's radius in meters
 
@@ -18,17 +19,7 @@ const flightModule = (birdData) => {
   const currentLocation = birdData.position;
   let speed = birdData.speed;
 
-  // console.log(birdData.position, birdData.required.position[0]);
-
   // calc the relevant destination
-  const nearDistanceInKM = 0.1;
-  // console.log(
-  //   birdData.tailNum,
-  //   birdData.position.lat,
-  //   birdData.position.lng,
-  //   birdData.required.position[0].lat,
-  //   birdData.required.position[0].lng
-  // );
   const ifReachedDestination =
     calculateIfFarFromDistance(
       birdData.position.lat,
@@ -37,32 +28,26 @@ const flightModule = (birdData) => {
       birdData.required.position[0].lng
     ) <= nearDistanceInKM;
 
-  // if (birdData.tailNum === 1)
-  //   console.log(
-  //     birdData.position.lat,
-  //     birdData.position.lng,
-  //     birdData.required.position[0].lat,
-  //     birdData.required.position[0].lng,
-  //     calculateIfFarFromDistance(
-  //       birdData.position.lat,
-  //       birdData.position.lng,
-  //       birdData.required.position[0].lat,
-  //       birdData.required.position[0].lng
-  //     )
-  //   );
-
-  let destination, requiredRoute;
+  let destination, requiredRoute, isCircleFlight, circleCenter;
   destination = birdData.required.position[0];
-  // requiredRoute = birdData.required.position;
+  isCircleFlight = birdData.state.isCircleFlight;
 
   if (ifReachedDestination && birdData.required.position.length > 1) {
     requiredRoute = birdData.required.position.slice(1);
-    console.log(requiredRoute);
   }
 
-  // calc plane flight path
+  if (ifReachedDestination && birdData.required.position.length === 1) {
+    requiredRoute = circleFlightRouteModule(birdData);
+    isCircleFlight = true;
+    circleCenter = birdData.required.position[0];
+  }
 
-  let earthRadius = 6371e3;
+  // if (isCircleFlight && ifReachedDestination) {
+  //   requiredRoute = circleFlightRouteModule(birdData);
+  // }
+
+  // calc plane flight path
+  const earthRadius = 6371e3;
   let currentLatitude = (currentLocation.lat * Math.PI) / 180;
   let destinationLatitude = (destination.lat * Math.PI) / 180;
   let latitudeDifference =
@@ -112,6 +97,8 @@ const flightModule = (birdData) => {
     position: { lat: latitude, lng: longitude },
     bearing,
     requiredRoute,
+    isCircleFlight,
+    circleCenter,
   };
 };
 

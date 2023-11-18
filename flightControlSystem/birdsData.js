@@ -9,7 +9,7 @@ let birdsData = [
     type: "bird", // bird types are: bird, bee, butterfly
     speed: 10, //knots
     altitude: 100, //feet
-    radius: 1000,
+    circleRadius: 400,
     bearing: 360,
     calories: { current: 2000, averageBurnedPerMinute: 10 },
     position: {
@@ -18,6 +18,8 @@ let birdsData = [
     },
     state: {
       ifFarFromDestination: true,
+      isCircleFlight: false,
+      circleCenter: { lat: null, lng: null },
       isClimbing: false,
       isDescending: false,
       isEating: false,
@@ -84,7 +86,7 @@ if (ifRandomBirdData) {
       type: "bird",
       speed: 5 + Math.random() * (maxSpeed - 5),
       altitude: 50 + Math.floor(Math.random() * 15) * 50,
-      radius: 1000,
+      circleRadius: 1000,
       bearing: 360,
       calories: {
         current: 2000 + Math.floor(Math.random() * 7000),
@@ -96,6 +98,8 @@ if (ifRandomBirdData) {
       },
       state: {
         ifFarFromDestination: true,
+        isCircleFlight: false,
+        circleCenter: { lat: null, lng: null },
         isClimbing: false,
         isDescending: false,
         isEating: false,
