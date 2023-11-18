@@ -30,10 +30,12 @@ let birdsData = [
     },
     rateOfClimb: 50, //feet per minute
     required: {
-      position: {
-        lat: null,
-        lng: null,
-      },
+      position: [
+        {
+          lat: null,
+          lng: null,
+        },
+      ],
       speed: null,
       altitude: null,
     },
@@ -106,10 +108,12 @@ if (ifRandomBirdData) {
       },
       rateOfClimb: 50, //feet per minute
       required: {
-        position: {
-          lat: requiredLatitude,
-          lng: requiredLongitude,
-        },
+        position: [
+          {
+            lat: requiredLatitude,
+            lng: requiredLongitude,
+          },
+        ],
         speed: null,
         altitude: null,
       },

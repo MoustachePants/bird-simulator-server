@@ -2,6 +2,7 @@
 // in consideration of its properties and destination
 
 const { intervalRate } = require("../../config");
+const calculateIfFarFromDistance = require("../../utils/calculateDistanceBetweenCoords");
 
 const earthRadius = 6371e3; // Earth's radius in meters
 
@@ -15,8 +16,50 @@ const toDegrees = (radians) => {
 
 const flightModule = (birdData) => {
   const currentLocation = birdData.position;
-  const destination = birdData.required.position;
   let speed = birdData.speed;
+
+  // console.log(birdData.position, birdData.required.position[0]);
+
+  // calc the relevant destination
+  const nearDistanceInKM = 0.1;
+  // console.log(
+  //   birdData.tailNum,
+  //   birdData.position.lat,
+  //   birdData.position.lng,
+  //   birdData.required.position[0].lat,
+  //   birdData.required.position[0].lng
+  // );
+  const ifReachedDestination =
+    calculateIfFarFromDistance(
+      birdData.position.lat,
+      birdData.position.lng,
+      birdData.required.position[0].lat,
+      birdData.required.position[0].lng
+    ) <= nearDistanceInKM;
+
+  // if (birdData.tailNum === 1)
+  //   console.log(
+  //     birdData.position.lat,
+  //     birdData.position.lng,
+  //     birdData.required.position[0].lat,
+  //     birdData.required.position[0].lng,
+  //     calculateIfFarFromDistance(
+  //       birdData.position.lat,
+  //       birdData.position.lng,
+  //       birdData.required.position[0].lat,
+  //       birdData.required.position[0].lng
+  //     )
+  //   );
+
+  let destination, requiredRoute;
+  destination = birdData.required.position[0];
+  // requiredRoute = birdData.required.position;
+
+  if (ifReachedDestination && birdData.required.position.length > 1) {
+    requiredRoute = birdData.required.position.slice(1);
+    console.log(requiredRoute);
+  }
+
   // calc plane flight path
 
   let earthRadius = 6371e3;
@@ -65,7 +108,11 @@ const flightModule = (birdData) => {
   const bearingInRad = Math.atan2(y, x);
   const bearing = ((bearingInRad * 180) / Math.PI + 360) % 360;
 
-  return { position: { lat: latitude, lng: longitude }, bearing };
+  return {
+    position: { lat: latitude, lng: longitude },
+    bearing,
+    requiredRoute,
+  };
 };
 
 module.exports = flightModule;

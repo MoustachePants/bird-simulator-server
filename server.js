@@ -42,7 +42,7 @@ app.post("/", (req, res) => {
 });
 
 app.get("/entities", (req, res) => {
-  console.log("Deliver Entities");
-  console.log(mapEntities);
+  // console.log("Deliver Entities");
+  // console.log(mapEntities);
   res.status(200).json(mapEntities);
 });
