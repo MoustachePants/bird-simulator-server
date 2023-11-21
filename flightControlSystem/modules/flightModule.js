@@ -25,7 +25,18 @@ const flightModule = (birdData) => {
   destination = birdData.required.position[0];
   isCircleFlight = birdData.state.isCircleFlight;
 
-  if (ifReachedDestination && birdData.required.position.length > 1) {
+  if (isCircleFlight && ifReachedDestination) {
+    requiredRoute = [
+      ...birdData.required.position.slice(1),
+      birdData.required.position[0],
+    ];
+  }
+
+  if (
+    !isCircleFlight &&
+    ifReachedDestination &&
+    birdData.required.position.length > 1
+  ) {
     requiredRoute = birdData.required.position.slice(1);
   }
 
@@ -34,10 +45,6 @@ const flightModule = (birdData) => {
     isCircleFlight = true;
     circleCenter = birdData.required.position[0];
   }
-
-  // if (isCircleFlight && ifReachedDestination) {
-  //   requiredRoute = circleFlightRoutePlanner(birdData);
-  // }
 
   // calc plane flight path
   let currentLatitude = toRadians(currentLocation.lat);

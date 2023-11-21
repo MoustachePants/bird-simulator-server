@@ -59,7 +59,7 @@ const circleFlightRoutePlanner = (bird) => {
   }
 
   // Add the first coordinate to the end to complete the circle
-  coordinates.push(coordinates[0]);
+  // coordinates.push(coordinates[0]);
 
   return coordinates;
 };
