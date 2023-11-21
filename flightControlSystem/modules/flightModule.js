@@ -3,27 +3,20 @@
 
 const { intervalRate, nearDistanceInKM } = require("../../config");
 const calculateIfFarFromDistance = require("../../utils/calculateDistanceBetweenCoords");
-const circleFlightRouteModule = require("../modules/circleFlightRouteModule");
+const circleFlightRoutePlanner = require("../circleFlightRoutePlanner");
+const { toRadians, toDegrees } = require("../../utils/helpers");
 
 const earthRadius = 6371e3; // Earth's radius in meters
-
-const toRadians = (degrees) => {
-  return degrees * (Math.PI / 180);
-};
-
-const toDegrees = (radians) => {
-  return radians * (180 / Math.PI);
-};
 
 const flightModule = (birdData) => {
   const currentLocation = birdData.position;
   let speed = birdData.speed;
 
-  // calc the relevant destination
+  // calc the relevant flight pattern according to if close to destination and if at circle flight mode
   const ifReachedDestination =
     calculateIfFarFromDistance(
-      birdData.position.lat,
-      birdData.position.lng,
+      currentLocation.lat,
+      currentLocation.lng,
       birdData.required.position[0].lat,
       birdData.required.position[0].lng
     ) <= nearDistanceInKM;
@@ -37,23 +30,20 @@ const flightModule = (birdData) => {
   }
 
   if (ifReachedDestination && birdData.required.position.length === 1) {
-    requiredRoute = circleFlightRouteModule(birdData);
+    requiredRoute = circleFlightRoutePlanner(birdData);
     isCircleFlight = true;
     circleCenter = birdData.required.position[0];
   }
 
   // if (isCircleFlight && ifReachedDestination) {
-  //   requiredRoute = circleFlightRouteModule(birdData);
+  //   requiredRoute = circleFlightRoutePlanner(birdData);
   // }
 
   // calc plane flight path
-  const earthRadius = 6371e3;
-  let currentLatitude = (currentLocation.lat * Math.PI) / 180;
-  let destinationLatitude = (destination.lat * Math.PI) / 180;
-  let latitudeDifference =
-    ((destination.lat - currentLocation.lat) * Math.PI) / 180;
-  let longitudeDifference =
-    ((destination.lng - currentLocation.lng) * Math.PI) / 180;
+  let currentLatitude = toRadians(currentLocation.lat);
+  let destinationLatitude = toRadians(destination.lat);
+  let latitudeDifference = toRadians(destination.lat - currentLocation.lat);
+  let longitudeDifference = toRadians(destination.lng - currentLocation.lng);
 
   let latitudeRadian =
     Math.sin(latitudeDifference / 2) * Math.sin(latitudeDifference / 2) +
@@ -80,10 +70,10 @@ const flightModule = (birdData) => {
     currentLocation.lng + longitudeDistancePerSecond * intervalInSeconds;
 
   // calc plane bearing
-  const lat1 = currentLocation.lat * (Math.PI / 180);
-  const lon1 = currentLocation.lng * (Math.PI / 180);
-  const lat2 = destination.lat * (Math.PI / 180);
-  const lon2 = destination.lng * (Math.PI / 180);
+  const lat1 = toRadians(currentLocation.lat);
+  const lon1 = toRadians(currentLocation.lng);
+  const lat2 = toRadians(destination.lat);
+  const lon2 = toRadians(destination.lng);
 
   const y = Math.sin(lon2 - lon1) * Math.cos(lat2);
   const x =
@@ -91,7 +81,7 @@ const flightModule = (birdData) => {
     Math.sin(lat1) * Math.cos(lat2) * Math.cos(lon2 - lon1);
 
   const bearingInRad = Math.atan2(y, x);
-  const bearing = ((bearingInRad * 180) / Math.PI + 360) % 360;
+  const bearing = (toDegrees(bearingInRad) + 360) % 360;
 
   return {
     position: { lat: latitude, lng: longitude },

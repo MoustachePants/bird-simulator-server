@@ -7,7 +7,7 @@ let birdsData = [
     summery:
       "The white stork migrates through Israel from Europe to Africa, stopping to rest and refuel on its journey. Watching this graceful bird in flight is a marvel of nature, as it perseveres on its long journey to reach its wintering grounds.",
     type: "bird", // bird types are: bird, bee, butterfly
-    speed: 10, //knots
+    speed: 20, //knots
     altitude: 100, //feet
     circleRadius: 400,
     bearing: 360,

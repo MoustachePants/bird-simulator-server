@@ -1,7 +1,6 @@
-const toRadians = (degrees) => degrees * (Math.PI / 180);
-const toDegrees = (radians) => radians * (180 / Math.PI);
+const { toRadians, toDegrees } = require("../utils/helpers");
 
-const circleFlightRouteModule = (bird) => {
+const circleFlightRoutePlanner = (bird) => {
   const speed = bird.speed;
   const circleRadius = bird.circleRadius;
   const circleCenter = bird.state.circleCenter || bird.required.position[0];
@@ -25,8 +24,19 @@ const circleFlightRouteModule = (bird) => {
 
   const coordinates = [];
 
+  // Calculate the initial bearing from the bird's position to the first point on the circle
+  const initialBearing = Math.atan2(
+    Math.sin(centerLng - toRadians(bird.position.lng)) * Math.cos(centerLat),
+    Math.cos(toRadians(bird.position.lat)) * Math.sin(centerLat) -
+      Math.sin(toRadians(bird.position.lat)) *
+        Math.cos(centerLat) *
+        Math.cos(centerLng - toRadians(bird.position.lng))
+  );
+
   for (let i = 0; i < numberOfPoints; i++) {
-    const bearing = (i / numberOfPoints) * 360;
+    // Adjust the bearing to start from the initial bearing
+    const bearing =
+      ((i / numberOfPoints) * 360 + toDegrees(initialBearing) + 360) % 360;
     const angularBearing = toRadians(bearing);
 
     const lat = Math.asin(
@@ -48,7 +58,10 @@ const circleFlightRouteModule = (bird) => {
     coordinates.push({ lat: toDegrees(lat), lng: toDegrees(lng) });
   }
 
+  // Add the first coordinate to the end to complete the circle
+  coordinates.push(coordinates[0]);
+
   return coordinates;
 };
 
-module.exports = circleFlightRouteModule;
+module.exports = circleFlightRoutePlanner;
