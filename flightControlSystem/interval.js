@@ -25,8 +25,10 @@ const startInterval = async () => {
       birds[birdIndex].position.lat = newPosition.lat;
       birds[birdIndex].position.lng = newPosition.lng;
       birds[birdIndex].bearing = newBearing;
-      birds[birdIndex].state.isCircleFlight = isCircleFlight;
-      birds[birdIndex].state.circleCenter = circleCenter;
+
+      if (isCircleFlight)
+        birds[birdIndex].state.isCircleFlight = isCircleFlight;
+      if (circleCenter) birds[birdIndex].state.circleCenter = circleCenter;
 
       if (requiredRoute) birds[birdIndex].required.position = requiredRoute;
 

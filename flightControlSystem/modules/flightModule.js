@@ -3,7 +3,7 @@
 
 const { intervalRate, nearDistanceInKM } = require("../../config");
 const calculateIfFarFromDistance = require("../../utils/calculateDistanceBetweenCoords");
-const circleFlightRoutePlanner = require("../circleFlightRoutePlanner");
+const circleFlightRoutePlanner = require("../asistingModules/circleFlightRoutePlanner");
 const { toRadians, toDegrees } = require("../../utils/helpers");
 
 const earthRadius = 6371e3; // Earth's radius in meters
@@ -32,18 +32,16 @@ const flightModule = (birdData) => {
     ];
   }
 
-  if (
-    !isCircleFlight &&
-    ifReachedDestination &&
-    birdData.required.position.length > 1
-  ) {
-    requiredRoute = birdData.required.position.slice(1);
-  }
+  if (!isCircleFlight) {
+    if (ifReachedDestination && birdData.required.position.length > 1) {
+      requiredRoute = birdData.required.position.slice(1);
+    }
 
-  if (ifReachedDestination && birdData.required.position.length === 1) {
-    requiredRoute = circleFlightRoutePlanner(birdData);
-    isCircleFlight = true;
-    circleCenter = birdData.required.position[0];
+    if (ifReachedDestination && birdData.required.position.length === 1) {
+      circleCenter = birdData.required.position[0];
+      requiredRoute = circleFlightRoutePlanner(birdData, circleCenter);
+      isCircleFlight = true;
+    }
   }
 
   // calc plane flight path
@@ -89,6 +87,8 @@ const flightModule = (birdData) => {
 
   const bearingInRad = Math.atan2(y, x);
   const bearing = (toDegrees(bearingInRad) + 360) % 360;
+
+  // if (birdData.tailNum === 1) console.log(birdData.state.circleCenter);
 
   return {
     position: { lat: latitude, lng: longitude },

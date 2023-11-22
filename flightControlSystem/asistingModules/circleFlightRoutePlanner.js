@@ -1,9 +1,8 @@
-const { toRadians, toDegrees } = require("../utils/helpers");
+const { toRadians, toDegrees } = require("../../utils/helpers");
 
-const circleFlightRoutePlanner = (bird) => {
+const circleFlightRoutePlanner = (bird, circleCenter) => {
   const speed = bird.speed;
   const circleRadius = bird.circleRadius;
-  const circleCenter = bird.state.circleCenter || bird.required.position[0];
 
   const earthRadius = 6371e3; // Earth's radius in meters
 

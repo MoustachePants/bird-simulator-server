@@ -8,8 +8,10 @@ const flyTo = (birdIndex, requiredPosition) => {
 };
 
 const addPositionToRoute = (birdIndex, requiredRoutePosition) => {
-  birds[birdIndex].required.position.push(requiredRoutePosition);
+  if (!birds[birdIndex].state.isCircleFlight)
+    birds[birdIndex].required.position.push(requiredRoutePosition);
 };
+
 const changeSpeed = (birdIndex, requiredSpeed) => {
   birds[birdIndex].required.speed = requiredSpeed;
 };
