@@ -1,5 +1,5 @@
 const isPointInsidePolygon = require("../../utils/isPointInsidePolygon");
-const feedingAreasData = require("../../MapEntities/FeedingAreas");
+const feedingAreasData = require("../../MapEntities/feedingAreas");
 
 const eatingModule = (bird) => {
   const birdPosition = [bird.position.lat, bird.position.lng];
