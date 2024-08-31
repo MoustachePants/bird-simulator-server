@@ -13,8 +13,8 @@ let birdsData = [
     bearing: 360,
     calories: { current: 2000, averageBurnedPerMinute: 10 },
     position: {
-      lat: 32.84949431435908,
-      lng: 34.97669664788461,
+      lat: 33.05850159528853,
+      lng: 35.65744591325783,
     },
     state: {
       ifFarFromDestination: true,
